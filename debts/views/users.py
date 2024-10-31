@@ -78,3 +78,13 @@ def debts_received(request):
     serializer = DebtSerializer(debts, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def all_user_debts(request):
+    user = request.user
+    debts_given = DebtModel.objects.filter(giver=user)
+    debts_received = DebtModel.objects.filter(receiver=user)
+    all_debts = debts_given | debts_received
+    serializer = DebtSerializer(all_debts, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
