@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name': 'User',
                 'verbose_name_plural': 'Users',
-                'db_table': 'users',
+                'db_table': 'users.py',
             },
             managers=[
                 ('objects', django.contrib.auth.models.UserManager()),
@@ -51,13 +51,13 @@ class Migration(migrations.Migration):
                 ('giver_phone_number', models.CharField(max_length=11)),
                 ('amount', models.IntegerField()),
                 ('status', models.BooleanField(default=True)),
-                ('giver', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='debts_given', to='debts.usermodel')),
-                ('receiver', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='debts_received', to='debts.usermodel')),
+                ('giver', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='debts_given', to='debts.py.usermodel')),
+                ('receiver', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='debts_received', to='debts.py.usermodel')),
             ],
             options={
                 'verbose_name': 'Debt',
                 'verbose_name_plural': 'Debts',
-                'db_table': 'debts',
+                'db_table': 'debts.py',
             },
         ),
     ]

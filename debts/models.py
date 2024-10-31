@@ -24,7 +24,7 @@ class UserModel(AbstractUser):
         return self.username
 
     class Meta:
-        db_table = 'users'
+        db_table = 'users.py'
         verbose_name = 'User'
         verbose_name_plural = 'Users'
 
@@ -45,6 +45,6 @@ class DebtModel(models.Model):
         return f'from {self.giver.username} to {self.receiver.username}'
 
     class Meta:
-        db_table = 'debts'
+        db_table = 'debts.py'
         verbose_name = 'Debt'
         verbose_name_plural = 'Debts'
