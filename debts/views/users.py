@@ -4,8 +4,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 
-from debts.models import UserModel
-from debts.serializers import UserSerializer
+from debts.models import UserModel, DebtModel
+from debts.serializers import UserSerializer, DebtSerializer
 
 
 @api_view(['GET', 'POST'])
@@ -58,4 +58,15 @@ def authenticated_super_user(request):
 @api_view(['GET'])
 def unauthenticated_view(request):
     return Response({'message': 'Unauthenticated_view'})
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def debts_given(request):
+    """View to list all debts given by the authenticated user."""
+    user = request.user
+    debts = DebtModel.objects.filter(giver=user)
+    serializer = DebtSerializer(debts, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 
