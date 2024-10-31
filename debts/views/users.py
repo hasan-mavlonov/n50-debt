@@ -69,4 +69,12 @@ def debts_given(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def debts_received(request):
+    """View to list all debts received by the authenticated user."""
+    user = request.user
+    debts = DebtModel.objects.filter(receiver=user)
+    serializer = DebtSerializer(debts, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
