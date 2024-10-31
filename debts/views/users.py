@@ -59,6 +59,7 @@ def authenticated_super_user(request):
 def unauthenticated_view(request):
     return Response({'message': 'Unauthenticated_view'})
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def debts_given(request):
@@ -72,7 +73,6 @@ def debts_given(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def debts_received(request):
-    """View to list all debts received by the authenticated user."""
     user = request.user
     debts = DebtModel.objects.filter(receiver=user)
     serializer = DebtSerializer(debts, many=True)
@@ -83,8 +83,18 @@ def debts_received(request):
 @permission_classes([IsAuthenticated])
 def all_user_debts(request):
     user = request.user
-    debts_given = DebtModel.objects.filter(giver=user)
-    debts_received = DebtModel.objects.filter(receiver=user)
-    all_debts = debts_given | debts_received
+    given_debts = DebtModel.objects.filter(giver=user)
+    received_debts = DebtModel.objects.filter(receiver=user)
+
+    # Debugging outputs
+    print("Given Debts:", given_debts)  # Check what's in given debts
+    print("Received Debts:", received_debts)  # Check what's in received debts
+
+    all_debts = given_debts | received_debts
+
+    # More debugging output
+    print("All Debts:", all_debts)  # Check combined debts
+
     serializer = DebtSerializer(all_debts, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
