@@ -1,8 +1,14 @@
 from rest_framework import serializers
 from debts.models import UserModel, DebtModel
 
+from rest_framework import serializers
+from .models import UserModel, DebtModel
+
 
 class UserSerializer(serializers.ModelSerializer):
+    debts_given = serializers.PrimaryKeyRelatedField(many=True, queryset=DebtModel.objects.all())
+    debts_received = serializers.PrimaryKeyRelatedField(many=True, queryset=DebtModel.objects.all())
+
     class Meta:
         model = UserModel
         fields = '__all__'

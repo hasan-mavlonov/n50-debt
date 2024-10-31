@@ -57,5 +57,5 @@ def authenticated_super_user(request):
 
 @api_view(['GET'])
 def unauthenticated_view(request):
-
     return Response({'message': 'Unauthenticated_view'})
+
