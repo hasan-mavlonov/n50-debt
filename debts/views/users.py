@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 
 from debts.models import UserModel
@@ -40,3 +41,19 @@ def user_detail(request, pk):
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def authenticated_view(request):
+    return Response({'message': 'Authenticated_view'})
+
+
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
+def authenticated_superuser(request):
+    return Response({'message': 'Authenticated super user view'})
+
+
+@api_view(['GET'])
+def unauthenticated_view(request):
+    return Response({'message': 'Unauthenticated_view'})
