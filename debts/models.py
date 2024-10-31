@@ -24,20 +24,14 @@ class UserModel(AbstractUser):
         return self.username
 
     class Meta:
-        db_table = 'users.py'
+        db_table = 'users'  # Remove '.py' here
         verbose_name = 'User'
         verbose_name_plural = 'Users'
 
 
 class DebtModel(models.Model):
-    giver = models.ForeignKey(
-        UserModel, on_delete=models.CASCADE, related_name="debts_given"
-    )
-    receiver = models.ForeignKey(
-        UserModel, on_delete=models.CASCADE, related_name="debts_received"
-    )
-    receiver_phone_number = models.CharField(max_length=11)
-    giver_phone_number = models.CharField(max_length=11)
+    giver = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name="debts_given")
+    receiver = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name="debts_received")
     amount = models.IntegerField()
     status = models.BooleanField(default=True)
 
@@ -45,6 +39,6 @@ class DebtModel(models.Model):
         return f'from {self.giver.username} to {self.receiver.username}'
 
     class Meta:
-        db_table = 'debts.py'
+        db_table = 'debts'
         verbose_name = 'Debt'
         verbose_name_plural = 'Debts'
