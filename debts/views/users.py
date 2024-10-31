@@ -50,10 +50,12 @@ def authenticated_view(request):
 
 @api_view(['GET'])
 @permission_classes([IsAdminUser])
-def authenticated_superuser(request):
-    return Response({'message': 'Authenticated super user view'})
+def authenticated_super_user(request):
+    user = request.user
+    return Response({'message': f'Authenticated super user view {user.username}'})
 
 
 @api_view(['GET'])
 def unauthenticated_view(request):
+
     return Response({'message': 'Unauthenticated_view'})
